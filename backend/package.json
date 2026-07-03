@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "bun --watch src/server.ts",
     "build": "bun build src/server.ts --outdir dist --target node",
-    "start": "bundist/server.js",
+    "start": "node dist/server.js",
     "postinstall": "prisma generate"
   },
   "devDependencies": {
