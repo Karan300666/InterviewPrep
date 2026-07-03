@@ -1,0 +1,22 @@
+import express from 'express'
+import authRouter  from './routes/auth.route'
+import cors from 'cors'
+import cookieParser from 'cookie-parser'
+import AIRouter from './routes/AI.route'
+const app = express();
+const corsOptions = {
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+}
+
+app.get('/health', (_req, res) => {
+    res.status(200).json({ status: 'ok' })
+})
+
+app.use(cors(corsOptions))
+app.use(express.json())
+app.use(cookieParser())
+app.use('/api/auth', authRouter)
+app.use('/api/AI', AIRouter)
+
+export default app;
