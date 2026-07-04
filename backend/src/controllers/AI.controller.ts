@@ -10,9 +10,10 @@ const createInterviewSchema = z.object({
     role: z.string().min(2),
     level: z.string(),
     techStack: z.string(),
-    amount: z.string()
+    amount: z.string(),
+    userId: z.string().uuid()
 })
-export async function creatingInterview(req: AuthenticatedRequest , res: Response){
+export async function creatingInterview(req: Request , res: Response){
     const result = createInterviewSchema.safeParse(req.body)
 
     if(!result.success){
@@ -22,7 +23,7 @@ export async function creatingInterview(req: AuthenticatedRequest , res: Respons
         })
     }
 
-    const { type, role, level, techStack, amount} = req.body;
+    const { type, role, level, techStack, amount, userId} = req.body;
     const techStackArray = techStack
                            .split(",")
                            .map((tech: string) => tech.trim())
@@ -53,7 +54,7 @@ export async function creatingInterview(req: AuthenticatedRequest , res: Respons
                            .split(",")
         const interview = await prisma.interview.create({
             data: {
-                userId: req.userId as string,
+                userId,
                 role,
                 level,
                 type,
@@ -64,7 +65,7 @@ export async function creatingInterview(req: AuthenticatedRequest , res: Respons
         })
         return res.status(200).json({
             message: "creating interview successfully",
-            questions: AIresponse
+           // questions: AIresponse
         })
 
     } catch (err) {

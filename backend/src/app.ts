@@ -3,6 +3,7 @@ import authRouter  from './routes/auth.route'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import AIRouter from './routes/AI.route'
+import interviewRouter from './routes/interview.route'
 const app = express();
 const corsOptions = {
     origin: process.env.CLIENT_URL,
@@ -18,5 +19,6 @@ app.use(express.json())
 app.use(cookieParser())
 app.use('/api/auth', authRouter)
 app.use('/api/AI', AIRouter)
+app.use('/api/interview' , interviewRouter)
 
 export default app;

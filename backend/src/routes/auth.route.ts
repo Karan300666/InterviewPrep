@@ -3,10 +3,11 @@ import { getCurrentUser, signinUser, signupUser } from "../controllers/auth.cont
 import { authenticateUser } from '../middlewares/auth.middleware'
 
 
+
 const router = Router()
 
 router.post('/sign-up' , signupUser )
 router.post('/sign-in' , signinUser)
-router.get('/getUser' , authenticateUser,  getCurrentUser)
+router.get('/get/user' , authenticateUser,  getCurrentUser)
 
 export default router

@@ -3,6 +3,7 @@ import { Request, Response, CookieOptions } from "express";
 import { prisma } from '../lib/prisma'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
+import { AuthenticatedRequest } from "../middlewares/auth.middleware";
 
 const signupSchema = z.object({
     name: z.string().min(2).max(50),
@@ -140,9 +141,22 @@ export async function signinUser(req: Request, res: Response) {
     }
 }
 
-export async function getCurrentUser(req: Request, res: Response){
-     return res.status(200).json({
-        message: "user is valid"
+export async function getCurrentUser(req: AuthenticatedRequest, res: Response){
+
+    const user = await prisma.user.findUnique({
+        where:{
+            id: req.userId
+        }
+    })
+     if(!user){
+        res.status(404).json({
+            message: "User not found"
+        })
+        return
+     }
+      res.status(200).json({
+        message: "User find successfully",
+        user
       })
 }
 
