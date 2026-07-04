@@ -65,7 +65,7 @@ export async function creatingInterview(req: Request , res: Response){
         })
         return res.status(200).json({
             message: "creating interview successfully",
-           // questions: AIresponse
+            questions: AIresponse
         })
 
     } catch (err) {
