@@ -30,7 +30,7 @@ export async function creatingInterview(req: Request , res: Response){
                            .filter((tech: string) => tech.length > 0)
     try {
 
-        
+        console.log("vapi body", req.body)
         const AIresponse = await getAIResponse(
             `Prepare questions for a job interview.
         The job role is ${role}.
