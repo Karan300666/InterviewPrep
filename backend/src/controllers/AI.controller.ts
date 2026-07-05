@@ -7,7 +7,7 @@ import getAIResponse from "../services/AI.service";
 
 const createInterviewSchema = z.object({
     type: z.string(),
-    role: z.string().min(2),
+    role: z.string(),
     level: z.string(),
     techStack: z.string(),
     amount: z.string(),
