@@ -85,15 +85,13 @@ export async function createInterview(req: Request, res: Response) {
 }
 
 export async function createInterviewFeedback(req: Request, res: Response) {
-    const message  = req.body.messages;
+    const message  = req.body.message;
+    console.log("vapi chat: ", message)
     try {
         if (message.type === "end-of-call-report") {
-            const userId = req.body.variableValues.userId
-            const interviewId = req.body.variableValues.interviewId
-            const chat = message;
-            console.log("userId: ", userId)
-            console.log("interviewId: ", interviewId)
-            console.log("chat: ", chat)
+            const userId = message.call.assistantOverrides.variableValues.userId
+            const interviewId = message.call.assistantOverrides.variableValues.interviewId
+            const chat = message.artifact.messages;
   
             const formattedChat = chat
                 .map((sentence: { role: string; message: string }) => (
