@@ -54,18 +54,18 @@ export async function signupUser(req: Request, res: Response) {
                 email: true,
             }
         })
-         
-         if(!process.env.JWT_SECRET){
+
+        if (!process.env.JWT_SECRET) {
             throw new Error("JWT_SECRET in not defined")
         }
         const token = jwt.sign(
-        {
-            id: user.id,
-        }, process.env.JWT_SECRET, 
-        {
-             expiresIn: "7d"
-        }
-    )
+            {
+                id: user.id,
+            }, process.env.JWT_SECRET,
+            {
+                expiresIn: "7d"
+            }
+        )
 
         res.cookie("token", token, cookieOptions)
 
@@ -115,17 +115,17 @@ export async function signinUser(req: Request, res: Response) {
                 message: "Invalid email or password"
             })
         }
-         if(!process.env.JWT_SECRET){
+        if (!process.env.JWT_SECRET) {
             throw new Error("JWT_SECRET in not defined")
         }
         const token = jwt.sign(
-        {
-            id: isUserExist.id,
-        }, process.env.JWT_SECRET, 
-        {
-             expiresIn: "7d"
-        }
-    )
+            {
+                id: isUserExist.id,
+            }, process.env.JWT_SECRET,
+            {
+                expiresIn: "7d"
+            }
+        )
 
         res.cookie("token", token, cookieOptions)
 
@@ -141,22 +141,31 @@ export async function signinUser(req: Request, res: Response) {
     }
 }
 
-export async function getCurrentUser(req: AuthenticatedRequest, res: Response){
+export async function getCurrentUser(req: AuthenticatedRequest, res: Response) {
 
-    const user = await prisma.user.findUnique({
-        where:{
-            id: req.userId
-        }
-    })
-     if(!user){
-        res.status(404).json({
-            message: "User not found"
+    try {
+
+
+        const user = await prisma.user.findUnique({
+            where: {
+                id: req.userId
+            },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+            }
         })
-        return
-     }
-      res.status(200).json({
-        message: "User find successfully",
-        user
-      })
+
+        res.status(200).json({
+            message: "User find successfully",
+            user
+        })
+    } catch (error) {
+        return res.status(400).json({
+            message: "User not found"
+
+        })
+    }
 }
 
