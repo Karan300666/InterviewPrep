@@ -29,7 +29,7 @@ export async function userInterviews(req: AuthenticatedRequest, res: Response) {
 
 export async function getInterview(req: Request, res: Response) {
     const interviewIdParam = req.query.interviewId;
-
+     console.log("interviewIdParam: ", interviewIdParam)
     try {
         if (typeof interviewIdParam !== 'string') {
             return res.status(400).json({ message: "Invalid interview ID" });
@@ -39,9 +39,13 @@ export async function getInterview(req: Request, res: Response) {
                 id: interviewIdParam
             }
         })
+         return res.status(200).json({
+            message: "Interview found successfully",
+            interview: interview
+        })
     } catch (error) {
         return res.status(400).json({
-            message: "interview not find"
+            message: "Interview not find"
         })
     }
 }
