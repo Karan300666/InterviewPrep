@@ -92,9 +92,9 @@ export async function createInterviewFeedback(req: Request, res: Response) {
             const userId = message.call.assistantOverrides.variableValues.userId
             const interviewId = message.call.assistantOverrides.variableValues.interviewId
             const chat = message.artifact.messages;
-            console.log("userId", userId)
-            console.log("chat", chat)
-            console.log("interviewId", interviewId)
+            res.status(200).json({
+                messages: "request coming successfully",
+             })
             const formattedChat = chat
                 .map((sentence: { role: string; message: string }) => (
                     `- ${sentence.role}: ${sentence.message}\n`
@@ -103,7 +103,7 @@ export async function createInterviewFeedback(req: Request, res: Response) {
                 ` You are an AI interviewer analyzing a mock interview. Your task is to evaluate the candidate based on structured categories. Be thorough and detailed in your analysis. Don't be lenient with the candidate. If there are mistakes or areas for improvement, point them out.
                Chat:
                    ${formattedChat}
-
+ 
         Please score the candidate from 0 to 10 in the following areas. Do not add categories other than the ones provided:
         - **Communication Skills**: Clarity, articulation, structured responses.
         - **Technical Knowledge**: Understanding of key concepts for the role.
@@ -136,7 +136,7 @@ export async function createInterviewFeedback(req: Request, res: Response) {
                 })
              }
              const feedback = JSON.parse(AIresponse)
-
+              console.log("feedback: ", feedback)
              const result = await feedback.create({
                 data: {
                     userId,
@@ -156,11 +156,6 @@ export async function createInterviewFeedback(req: Request, res: Response) {
                 data: {
                     status: "COMPLETED"
                 }
-             })
-             
-             res.status(200).json({
-                messages: "Feedback created successfully",
-                result
              })
             
         }
