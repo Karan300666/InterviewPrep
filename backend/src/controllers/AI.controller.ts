@@ -85,8 +85,8 @@ export async function createInterview(req: Request, res: Response) {
 }
 
 export async function createInterviewFeedback(req: Request, res: Response) {
-    const message  = req.body.message;
-   
+    const message = req.body.message;
+
     try {
         if (message.type === "end-of-call-report") {
             const userId = message.call.assistantOverrides.variableValues.userId
@@ -94,7 +94,7 @@ export async function createInterviewFeedback(req: Request, res: Response) {
             const chat = message.artifact.messages;
             res.status(200).json({
                 messages: "request coming successfully",
-             })
+            })
             const formattedChat = chat
                 .map((sentence: { role: string; message: string }) => (
                     `- ${sentence.role}: ${sentence.message}\n`
@@ -125,19 +125,16 @@ export async function createInterviewFeedback(req: Request, res: Response) {
                       "finalAssessment": "string,
 
                     }
-         
-        
-        `
-            )
+                `)
 
             if (!AIresponse) {
                 return res.status(500).json({
                     message: "AI can't create questions"
                 })
-             }
-             const feedback = JSON.parse(AIresponse)
-              console.log("feedback: ", feedback)
-             const result = await feedback.create({
+            }
+            const feedback = JSON.parse(AIresponse)
+
+            const result = await feedback.create({
                 data: {
                     userId,
                     interviewId,
@@ -147,17 +144,17 @@ export async function createInterviewFeedback(req: Request, res: Response) {
                     areasForImprovement: feedback.areasForImprovement,
                     finalAssessment: feedback.finalAssessment
                 }
-             })
-             
-             await prisma.interview.update({
+            })
+
+            await prisma.interview.update({
                 where: {
                     id: userId
                 },
                 data: {
                     status: "COMPLETED"
                 }
-             })
-            
+            })
+
         }
     } catch (error) {
         return res.status(400).json({

@@ -1,3 +1,8 @@
 {
-    "markdown.validate.enabled": true
+    "markdown.validate.enabled": false,
+    "tailwindCSS.includeLanguages": {
+        "typescript": "javascript",
+        "typescriptreact": "javascript"
+    },
+    "tailwindCSS.emmetCompletions": true
 }
