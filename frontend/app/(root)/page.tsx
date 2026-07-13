@@ -5,18 +5,14 @@ import Image from "next/image";
 import InterviewCard from "@/components/InterviewCard";
 import api from "@/lib/axios";
 import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
+
 const page = async() => {
   
  const cookieStore = await cookies()
- const token = cookieStore.get("token")
+
  let res;
       try{
-       res = await api.get('/api/interview/get' , {
-        headers: {
-          Cookie: `token=${token?.value}`
-        }
-       });
+       res = await api.get('/api/interview/get');
      
       } catch(err){
         redirect('/sign-in')
