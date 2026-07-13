@@ -4,11 +4,16 @@ import Link from "next/link";
 import Image from "next/image";
 import InterviewCard from "@/components/InterviewCard";
 import api from "@/lib/axios";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 const page = async() => {
-  
  const cookieStore = await cookies()
+ const token = cookieStore.get("token", {
+          headers: {
+            Cookie: `token=${token?.value}`
+          }
+         })
 
  let res;
       try{
