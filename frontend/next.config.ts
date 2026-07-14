@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
         return [
           {
             source: 'api/:path*",
-            destination: " https://interviewprep-ir1z.onrender.com"
+            destination: "https://interviewprep-ir1z.onrender.com"
           }
         ]
    }
