@@ -1,17 +1,17 @@
 
-import { NextRequest , NextResponse } from 'next/server'
+// import { NextRequest , NextResponse } from 'next/server'
 
-export function middleware(req: NextRequest){
-    const token = req.cookies.get('token')
+// export function middleware(req: NextRequest){
+//     const token = req.cookies.get('token')
 
-    if(!token){
-        return NextResponse.redirect(new URL('/sign-in' , req.url))
-    }
-    return NextResponse.next()
-}
+//     if(!token){
+//         return NextResponse.redirect(new URL('/sign-in' , req.url))
+//     }
+//     return NextResponse.next()
+// }
 
-export const config ={
-    matcher: [
-        '/'
-    ]
-}
+// export const config ={
+//     matcher: [
+//         '/'
+//     ]
+// }
