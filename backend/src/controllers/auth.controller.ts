@@ -15,7 +15,8 @@ const cookieOptions: CookieOptions = {
     httpOnly: true,
     secure: true,
     sameSite: "none",
-    maxAge: ONE_WEEK
+    maxAge: ONE_WEEK,
+    domain: '.vercel.app',
 }
 
 export async function signupUser(req: Request, res: Response) {
