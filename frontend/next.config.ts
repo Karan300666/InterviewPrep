@@ -1,7 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+   async rewrites() {
+        return [
+          {
+            source: 'api/:path*",
+            destination: " https://interviewprep-ir1z.onrender.com"
+          }
+        ]
+   }
 };
 
 export default nextConfig;
