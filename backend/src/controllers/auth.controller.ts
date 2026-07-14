@@ -14,7 +14,7 @@ const ONE_WEEK = 7 * 24 * 60 * 60 * 1000
 const cookieOptions: CookieOptions = {
     httpOnly: true,
     secure: true,
-    sameSite: "lax",
+    sameSite: "none",
     maxAge: ONE_WEEK,
     path: '/'
 }
