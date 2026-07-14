@@ -9,15 +9,14 @@ import { redirect } from "next/navigation";
 
 const page = async() => {
  const cookieStore = await cookies()
- const token = cookieStore.get("token", {
-          headers: {
-            Cookie: `token=${token?.value}`
-          }
-         })
-
+ const token = cookieStore.get("token")
  let res;
       try{
-       res = await api.get('/api/interview/get');
+       res = await api.get('/api/interview/get' , {
+        headers: {
+          Cookie: `token=${token?.value}`
+        }
+       });
      
       } catch(err){
         redirect('/sign-in')
