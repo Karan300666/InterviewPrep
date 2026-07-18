@@ -55,7 +55,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
           password,
         });
         toast.success("Sign in successfully.");
-        router.push("/");
+        window.location.href = "/";
       }
     } catch (error) {
       toast.error(`There was an error: ${error}`);
