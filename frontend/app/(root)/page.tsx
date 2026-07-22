@@ -14,7 +14,7 @@ const page = async() => {
  console.log("TOKEN", token)
  let res;
       try{
-       res = await api.get('/interview/get' , {
+       res = await api.get('/api/interview/get' , {
         headers: {
           Cookie: `token=${token?.value}`
         }
