@@ -7,6 +7,7 @@ import interviewRouter from './routes/interview.route'
 const app = express();
 const corsOptions = {
     origin: process.env.CLIENT_URL,
+    methods: ["GET" , "POST" , "PUT" , "DELETE"],
     credentials: true,
 }
 
