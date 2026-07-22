@@ -41,7 +41,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
     try {
       if (type === "sign-up") {
         const { name, email, password } = values;
-        await api.post("/api/auth/sign-up", {
+        await api.post("/auth/sign-up", {
           name,
           email,
           password,
@@ -50,7 +50,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
         router.push("/");
       } else {
         const { email, password } = values;
-        await api.post("/api/auth/sign-in", {
+        await api.post("/auth/sign-in", {
           email,
           password,
         });
