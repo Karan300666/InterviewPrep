@@ -27,19 +27,8 @@ export async function authenticateUser(req: AuthenticatedRequest, res: Response,
             process.env.JWT_SECRET
           ) as JwtPayload;
          const userId = decoded.id;
-       
 
-        const user = await prisma.user.findUnique({
-            where: {
-                id: userId
-            }
-        });
-
-        if (!user) {
-            return res.status(400).json({ message: "User not found" });
-        }
-
-        req.userId = user.id;
+        req.userId = userId;
         next();
 
     } catch (error) {

@@ -14,8 +14,9 @@ const ONE_WEEK = 7 * 24 * 60 * 60 * 1000
 const cookieOptions: CookieOptions = {
     httpOnly: true,
     secure: true,
-    sameSite: "strict",
-    maxAge: ONE_WEEK
+    sameSite: "none",
+    maxAge: ONE_WEEK,
+    path: '/'
 }
 
 export async function signupUser(req: Request, res: Response) {

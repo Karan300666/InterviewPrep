@@ -1,9 +1,17 @@
 import { prisma } from '../lib/prisma'
 import { AuthenticatedRequest } from '../middlewares/auth.middleware'
 import { Response, Request } from 'express'
+import redis from '../config/redis'
 
+const ONE_WEEK = 60 * 60 * 24 * 7
 export async function userInterviews(req: AuthenticatedRequest, res: Response) {
-
+   
+    const cacheKey = `interview:${req.userId}`
+    const cacheData = await redis.get(cacheKey)
+    if(cacheData){
+        return res.status(200).json(JSON.parse(cacheData))
+     }
+   
     const interviews = await prisma.interview.findMany({
         where: {
             userId: req.userId
@@ -15,9 +23,16 @@ export async function userInterviews(req: AuthenticatedRequest, res: Response) {
             message: "Not found any interview",
         })
     }
-    res.status(200).json({
-        message: "Interview found successfully",
-        interviews
+    
+    await redis.set(
+        cacheKey,
+        JSON.stringify(interviews),
+        "EX",
+        ONE_WEEK
+     )
+     res.status(200).json({
+           message: "Interview found successfully",
+          interviews
     })
 
 }

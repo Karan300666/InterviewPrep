@@ -4,16 +4,18 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import AIRouter from './routes/AI.route'
 import interviewRouter from './routes/interview.route'
+import redis from './config/redis'
 const app = express();
 const corsOptions = {
     origin: process.env.CLIENT_URL,
+    methods: ["GET" , "POST" , "PUT" , "DELETE"],
     credentials: true,
 }
 
 app.get('/health', (_req, res) => {
     res.status(200).json({ status: 'ok' })
 })
-
+app.set("trust proxy", 1);
 app.use(cors(corsOptions))
 app.use(express.json())
 app.use(cookieParser())
