@@ -38,8 +38,7 @@ const InterviewCard = ({
                         <Image src="/images/calendar[1].svg" alt='calender' width={22} height={22}/>
                         <p className=''>{formattedDate}</p>
                     </div>
-                    
-                   
+
                 </div>
                  <div className='flex flex-row justify-between'>
                    <DisplayTechIcons techStack={techStack} />
@@ -49,12 +48,9 @@ const InterviewCard = ({
                      </Button>
                    </Link> 
                 </div>
-           
-         
-               
-       </div>
 
-    
+       </div>
+_
        </div>
         
             
