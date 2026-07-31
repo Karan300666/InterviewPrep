@@ -30,7 +30,7 @@ const InterviewCard = ({
                    {role} Interview
                 </h3>
          <p className='line-clamp-2 '>
-                    {status == 'COMPLETED' || "You Haven't taken the interview yet. Take it now to improve skills"}
+                    {status === 'COMPLETED' || "You Haven't taken the interview yet. Take it now to improve skills"}
 
                 </p>
                   <div className='flex flex-row gap-5 '>
@@ -42,9 +42,9 @@ const InterviewCard = ({
                 </div>
                  <div className='flex flex-row justify-between'>
                    <DisplayTechIcons techStack={techStack} />
-                   <Link href={status == 'COMPLETED' ? `/interview/${id}/feedback` : `/interview/${id}`}>
+                   <Link href={status === 'COMPLETED' ? `/interview/${id}/feedback` : `/interview/${id}`}>
                      <Button className='btn-primary'>
-                       {status == 'COMPLETED' ? 'Check Feedback' : 'View Interview'}
+                       {status === 'COMPLETED' ? 'Check Feedback' : 'View Interview'}
                      </Button>
                    </Link> 
                 </div>
