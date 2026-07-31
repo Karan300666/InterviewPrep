@@ -9,9 +9,7 @@ import { redirect } from "next/navigation";
 
 const page = async() => {
  const cookieStore = await cookies()
- console.log(cookieStore.getAll())
  const token = cookieStore.get("token")
- console.log("TOKEN", token)
  let res;
       try{
        res = await api.get('/api/interview/get' , {
@@ -25,6 +23,7 @@ const page = async() => {
       }
       
       const interviews = res?.data?.interviews ?? [];
+      
   return (
     <>
       <section className="card-cta">

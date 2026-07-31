@@ -3,7 +3,7 @@ import { AuthenticatedRequest } from '../middlewares/auth.middleware'
 import { Response, Request } from 'express'
 import redis from '../config/redis'
 
-const ONE_WEEK = 60 * 60 * 24 * 7
+const ONE_WEEK = 60 * 60 * 24 * 7 
 export async function userInterviews(req: AuthenticatedRequest, res: Response) {
    
     const cacheKey = `interview:${req.userId}`
@@ -23,16 +23,19 @@ export async function userInterviews(req: AuthenticatedRequest, res: Response) {
             message: "Not found any interview",
         })
     }
-    
+     
+     const response = {
+        message: "Interview found successfully",
+        interviews
+     }
     await redis.set(
         cacheKey,
-        JSON.stringify(interviews),
+        JSON.stringify(response),
         "EX",
         ONE_WEEK
      )
      res.status(200).json({
-           message: "Interview found successfully",
-          interviews
+         response
     })
 
 }
