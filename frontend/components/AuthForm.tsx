@@ -73,7 +73,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
   return (
     <div className="">
       <div className="flex min-h-screen  items-center justify-center  px-4">
-        <Card className="card-border lg:min-w-[400px] bg-dark-100 max-w-md py-10  ">
+        <Card className="card-border w-100 bg-dark-100 max-w-md py-10  ">
           <CardHeader>
             <CardTitle className="text-4xl font-bold text-center">
               {isSignIn ? "Sign in" : "Sign up"}

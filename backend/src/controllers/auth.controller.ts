@@ -62,7 +62,7 @@ export async function signupUser(req: Request, res: Response) {
         const token = jwt.sign(
             {
                 id: user.id,
-            }, process.env.JWT_SECRET,
+            },  process.env.JWT_SECRET,
             {
                 expiresIn: "7d"
             }
@@ -145,9 +145,7 @@ export async function signinUser(req: Request, res: Response) {
 export async function getCurrentUser(req: AuthenticatedRequest, res: Response) {
 
     try {
-
-
-        const user = await prisma.user.findUnique({
+         const user = await prisma.user.findUnique({
             where: {
                 id: req.userId
             },

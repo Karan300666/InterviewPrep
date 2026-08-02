@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "bun --watch src/server.ts",
-    "worker": "bun run --watch src/workers/interview.worker.ts",
+    "worker:feedback": "bun run --watch src/workers/interview.worker.ts",
+    "worker:interview": "bun run --watch src/workers/createInterview.worker.ts",
     "build": "bun build src/server.ts --outdir dist --target node",
     "start": "node dist/server.js",
     "postinstall": "prisma generate"

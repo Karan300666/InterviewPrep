@@ -16,6 +16,7 @@ const page = async({ params }: RouteParams) => {
       } catch(err){
         redirect('/')
       }
+
       const feedback = res?.data?.feedback ?? [];
 
       const strengths = feedback.strengths

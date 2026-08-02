@@ -40,7 +40,6 @@ export async function userInterviews(req: AuthenticatedRequest, res: Response) {
 
 }
 
-
 export async function getInterview(req: Request, res: Response) {
     const interviewIdParam = req.query.interviewId;
     try {

@@ -2,21 +2,20 @@ import { Worker } from "bullmq"
 import redis from "../config/redis"
 import { prisma } from '../lib/prisma'
 import getAIResponse from "../services/AI.service";
-import { getJSDocPublicTag } from "typescript";
-
 
 
 const worker = new Worker(
     "interview-feedback",
-    async(job) => {
-     const {userId, interviewId, chat} = job.data;
-      
-          const formattedChat = chat
-                .map((sentence: { role: string; message: string }) => (
-                    `- ${sentence.role}: ${sentence.message}\n`
-                )).join('')
-            const AIresponse = await getAIResponse(
-                ` You are an AI interviewer analyzing a mock interview. Your task is to evaluate the candidate based on structured categories. Be thorough and detailed in your analysis. Don't be lenient with the candidate. If there are mistakes or areas for improvement, point them out.
+    async (job) => {
+        const { userId, interviewId, chat } = job.data;
+        
+        const formattedChat = chat
+            .map((sentence: { role: string; message: string }) => (
+                `- ${sentence.role}: ${sentence.message}\n`
+            )).join('')
+       
+        const AIresponse = await getAIResponse(
+            ` You are an AI interviewer analyzing a mock interview. Your task is to evaluate the candidate based on structured categories. Be thorough and detailed in your analysis. Don't be lenient with the candidate. If there are mistakes or areas for improvement, point them out.
                Chat:
                    ${formattedChat}
  
@@ -37,52 +36,54 @@ const worker = new Worker(
                       "totalScore": number,
                       "categoryScores": number,
                       "strengths": ["string"],
-                      "areasForImprovement": ["string"],
+                      "areasForImprovement": "string",
                       "finalAssessment": "string,
 
                     }
+                    categoryScores is strickly one number don't give numbers inside this and All the field is strickly as writen
+
                 `)
-              
-                if(!AIresponse){
-                  throw new Error("API failed")
-                }
-            const feedback = JSON.parse(AIresponse)
 
-            const result = await prisma.feedback.create({
-                data: {
-                    userId,
-                    interviewId,
-                    totalScore: feedback.totalScore,
-                    categoryScores: feedback.categoryScores,
-                    strengths: feedback.strengths,
-                    areasForImprovement: feedback.areasForImprovement,
-                    finalAssessment: feedback.finalAssessment
-                }
-            })
+        if (!AIresponse) {
+            throw new Error("AI failed to give feedback")
+        }
 
-            await prisma.interview.update({
-                where: {
-                    id: userId
-                },
-                data: {
-                    status: "COMPLETED"
-                }
-            })
+        const AIFeedback = JSON.parse(AIresponse)
+
+        const result = await prisma.feedback.create({
+            data: {
+                interviewId,
+                userId,
+                totalScore: AIFeedback.totalScore,
+                categoryScores: AIFeedback.categoryScores,
+                strengths: AIFeedback.strengths,
+                areasForImprovement: AIFeedback.areasForImprovement,
+                finalAssessment: AIFeedback.finalAssessment
+            }
+        })
+        await prisma.interview.update({
+            where: {
+                id: interviewId
+            },
+            data: {
+                status: "COMPLETED"
+            }
+        })
     },
     {
-    connection: redis
+        connection: redis
     }
 )
 
-worker.on("failed", async(job, err) => {
-      if(!job) return;
-      const userId = job.data.userId
-      await prisma.interview.update({
-                where: {
-                    id: userId
-                },
-                data: {
-                    status: "CANCELLED"
-                }
-            })
+worker.on("failed", async (job, err) => {
+    if (!job) return;
+    const interviewId = job.data.interviewId
+    await prisma.interview.update({
+        where: {
+            id: interviewId
+        },
+        data: {
+            status: "CANCELLED"
+        }
+    })
 })
